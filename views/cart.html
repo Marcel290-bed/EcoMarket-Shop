@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras - EcoMarket</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+    <!-- Header -->
+    <div id="header"></div>
+
+    <!-- Contenido Principal -->
+    <main class="container py-5">
+        <h1 class="mb-4">
+            <i class="bi bi-cart3"></i> Carrito de Compras
+        </h1>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Productos en tu carrito</h5>
+                        <button class="btn btn-sm btn-outline-light" onclick="CartManager.clearCart()">
+                            <i class="bi bi-trash"></i> Vaciar carrito
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div id="cartItems">
+                            <!-- Items del carrito se cargan aquí -->
+                            <div class="text-center py-5">
+                                <div class="spinner-border text-success" role="status">
+                                    <span class="visually-hidden">Cargando...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <a href="catalogo.html" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left"></i> Seguir Comprando
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card shadow-sm sticky-top" style="top: 20px;">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">Resumen de Compra</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Subtotal:</span>
+                            <span id="cartSubtotal">$0</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Envío:</span>
+                            <span class="text-success">Gratis</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between mb-3">
+                            <strong>Total:</strong>
+                            <strong class="text-success fs-4" id="cartTotal">$0</strong>
+                        </div>
+                        <button class="btn btn-success w-100 mb-2" id="checkoutBtn">
+                            <i class="bi bi-check-circle"></i> Finalizar Compra
+                        </button>
+                        <p class="text-muted small text-center mb-0">
+                            <i class="bi bi-shield-check"></i> Compra segura y protegida
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div id="footer"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/storage.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/cart.js"></script>
+    <script src="../js/app.js"></script>
+    <script>
+        // Inicializar componentes y carrito
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cargar header y footer
+            if (typeof EcoMarketApp !== 'undefined') {
+                EcoMarketApp.loadComponents();
+                EcoMarketApp.checkAuthentication();
+            }
+            
+            // Proteger la página (solo usuarios autenticados)
+            AuthManager.protectRoute();
+            
+            // Inicializar carrito
+            setTimeout(() => {
+                CartManager.init();
+                CartManager.renderCartItems();
+            }, 100);
+        });
+    </script>
+</body>
+</html>

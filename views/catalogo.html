@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Productos - EcoMarket</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+    <!-- Header -->
+    <div id="header"></div>
+
+    <!-- Contenido Principal -->
+    <main class="container py-5">
+        <div class="row mb-4">
+            <div class="col-12">
+                <h1 class="mb-3">
+                    <i class="bi bi-shop"></i> Catálogo de Productos Ecológicos
+                </h1>
+                <p class="text-muted">Explora nuestra selección de productos sostenibles y ecológicos</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar de Filtros -->
+            <div class="col-lg-3 mb-4">
+                <div class="card shadow-sm sticky-top" style="top: 20px;">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">
+                            <i class="bi bi-funnel"></i> Filtros
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Búsqueda -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Buscar</label>
+                            <div class="input-group">
+                                <input type="text" id="searchInput" class="form-control" placeholder="Buscar productos...">
+                                <button class="btn btn-outline-success" type="button" id="searchBtn">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Categorías -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Categoría</label>
+                            <select id="categoryFilter" class="form-select">
+                                <option value="">Todas las categorías</option>
+                            </select>
+                        </div>
+
+                        <!-- Etiquetas Ecológicas -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Etiquetas Ecológicas</label>
+                            <div id="ecoLabelsFilter">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="orgánico" id="filter_organico">
+                                    <label class="form-check-label" for="filter_organico">
+                                        🌱 Orgánico
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="biodegradable" id="filter_biodegradable">
+                                    <label class="form-check-label" for="filter_biodegradable">
+                                        ♻️ Biodegradable
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="vegano" id="filter_vegano">
+                                    <label class="form-check-label" for="filter_vegano">
+                                        🌿 Vegano
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Rango de Precios -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Rango de Precio</label>
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <input type="number" id="minPrice" class="form-control form-control-sm" placeholder="Mín" min="0" step="0.01">
+                                </div>
+                                <div class="col-6">
+                                    <input type="number" id="maxPrice" class="form-control form-control-sm" placeholder="Máx" min="0" step="0.01">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ordenar Por -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Ordenar por</label>
+                            <select id="sortBy" class="form-select">
+                                <option value="name-asc">Nombre (A-Z)</option>
+                                <option value="name-desc">Nombre (Z-A)</option>
+                                <option value="price-asc">Precio (menor a mayor)</option>
+                                <option value="price-desc">Precio (mayor a menor)</option>
+                                <option value="date-desc">Más recientes</option>
+                            </select>
+                        </div>
+
+                        <!-- Botones de Acción -->
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-success" id="applyFilters">
+                                <i class="bi bi-check-circle"></i> Aplicar Filtros
+                            </button>
+                            <button class="btn btn-outline-secondary" id="clearFilters">
+                                <i class="bi bi-x-circle"></i> Limpiar Filtros
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grid de Productos -->
+            <div class="col-lg-9">
+                <!-- Información de Resultados -->
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <p id="resultsInfo" class="text-muted mb-0">Cargando productos...</p>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-outline-secondary btn-sm active" id="gridView">
+                                    <i class="bi bi-grid-3x3-gap"></i>
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm" id="listView">
+                                    <i class="bi bi-list"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Productos -->
+                <div id="productsContainer" class="row g-4">
+                    <!-- Los productos se cargan aquí dinámicamente -->
+                    <div class="col-12 text-center py-5">
+                        <div class="spinner-border text-success" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Paginación -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <nav>
+                            <ul class="pagination justify-content-center" id="pagination">
+                                <!-- Paginación dinámica -->
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div id="footer"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/storage.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/categories.js"></script>
+    <script src="../js/products.js"></script>
+    <script src="../js/cart.js"></script>
+    <script src="../js/app.js"></script>
+    <script>
+        // Gestor del Catálogo con Filtros
+        const CatalogManager = {
+            allProducts: [],
+            filteredProducts: [],
+            currentView: 'grid',
+            currentPage: 1,
+            productsPerPage: 12,
+
+            init: function() {
+                this.loadProducts();
+                this.loadCategories();
+                this.setupEventListeners();
+                this.applyFilters();
+            },
+
+            loadProducts: function() {
+                this.allProducts = StorageManager.readAll('products') || [];
+            },
+
+            loadCategories: function() {
+                const categories = StorageManager.readAll('categories') || [];
+                const categoryFilter = document.getElementById('categoryFilter');
+                
+                categories.forEach(cat => {
+                    const option = document.createElement('option');
+                    option.value = cat.id;
+                    option.textContent = cat.name;
+                    categoryFilter.appendChild(option);
+                });
+            },
+
+            setupEventListeners: function() {
+                document.getElementById('applyFilters').addEventListener('click', () => this.applyFilters());
+                document.getElementById('clearFilters').addEventListener('click', () => this.clearFilters());
+                document.getElementById('searchBtn').addEventListener('click', () => this.applyFilters());
+                document.getElementById('searchInput').addEventListener('keyup', (e) => {
+                    if (e.key === 'Enter') this.applyFilters();
+                });
+                document.getElementById('gridView').addEventListener('click', () => this.switchView('grid'));
+                document.getElementById('listView').addEventListener('click', () => this.switchView('list'));
+                
+                // Aplicar filtros automáticamente al cambiar el ordenamiento
+                document.getElementById('sortBy').addEventListener('change', () => this.applyFilters());
+            },
+
+            applyFilters: function() {
+                this.loadProducts();
+                let products = [...this.allProducts];
+
+                // Filtro de búsqueda
+                const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
+                if (searchTerm) {
+                    products = products.filter(p => 
+                        p.name.toLowerCase().includes(searchTerm) || 
+                        p.description.toLowerCase().includes(searchTerm)
+                    );
+                }
+
+                // Filtro de categoría
+                const categoryId = document.getElementById('categoryFilter').value;
+                if (categoryId) {
+                    products = products.filter(p => p.categoryId === parseInt(categoryId));
+                }
+
+                // Filtro de etiquetas ecológicas
+                const selectedLabels = Array.from(document.querySelectorAll('#ecoLabelsFilter input:checked'))
+                    .map(cb => cb.value);
+                if (selectedLabels.length > 0) {
+                    products = products.filter(p => 
+                        selectedLabels.some(label => p.ecoLabels.includes(label))
+                    );
+                }
+
+                // Filtro de precio
+                const minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
+                const maxPrice = parseFloat(document.getElementById('maxPrice').value) || Infinity;
+                products = products.filter(p => p.price >= minPrice && p.price <= maxPrice);
+
+                // Ordenamiento
+                const sortBy = document.getElementById('sortBy').value;
+                products = this.sortProducts(products, sortBy);
+
+                this.filteredProducts = products;
+                this.currentPage = 1;
+                this.renderProducts();
+                this.updateResultsInfo();
+                this.renderPagination();
+            },
+
+            sortProducts: function(products, sortBy) {
+                const sorted = [...products];
+                
+                switch(sortBy) {
+                    case 'name-asc':
+                        return sorted.sort((a, b) => a.name.localeCompare(b.name));
+                    case 'name-desc':
+                        return sorted.sort((a, b) => b.name.localeCompare(a.name));
+                    case 'price-asc':
+                        return sorted.sort((a, b) => a.price - b.price);
+                    case 'price-desc':
+                        return sorted.sort((a, b) => b.price - a.price);
+                    case 'date-desc':
+                        return sorted.sort((a, b) => new Date(b.registrationDate) - new Date(a.registrationDate));
+                    default:
+                        return sorted;
+                }
+            },
+
+            clearFilters: function() {
+                document.getElementById('searchInput').value = '';
+                document.getElementById('categoryFilter').value = '';
+                document.querySelectorAll('#ecoLabelsFilter input').forEach(cb => cb.checked = false);
+                document.getElementById('minPrice').value = '';
+                document.getElementById('maxPrice').value = '';
+                document.getElementById('statusFilter').value = '';
+                document.getElementById('sortBy').value = 'name-asc';
+                this.applyFilters();
+            },
+
+            renderProducts: function() {
+                const container = document.getElementById('productsContainer');
+                const start = (this.currentPage - 1) * this.productsPerPage;
+                const end = start + this.productsPerPage;
+                const productsToShow = this.filteredProducts.slice(start, end);
+
+                if (this.allProducts.length === 0) {
+                    container.innerHTML = `
+                        <div class="col-12 text-center py-5">
+                            <i class="bi bi-inbox display-1 text-muted"></i>
+                            <h3 class="text-muted mt-3">No hay productos registrados</h3>
+                            <p class="text-muted">Aún no se han agregado productos al catálogo</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                if (productsToShow.length === 0) {
+                    container.innerHTML = `
+                        <div class="col-12 text-center py-5">
+                            <i class="bi bi-search display-1 text-muted"></i>
+                            <p class="text-muted mt-3">No se encontraron productos con los filtros aplicados</p>
+                            <button class="btn btn-success" onclick="CatalogManager.clearFilters()">
+                                Limpiar Filtros
+                            </button>
+                        </div>
+                    `;
+                    return;
+                }
+
+                if (this.currentView === 'grid') {
+                    container.innerHTML = productsToShow.map(p => this.createGridCard(p)).join('');
+                } else {
+                    container.innerHTML = productsToShow.map(p => this.createListCard(p)).join('');
+                }
+            },
+
+            createGridCard: function(product) {
+                const categories = StorageManager.readAll('categories');
+                const category = categories.find(c => c.id === product.categoryId);
+                const categoryName = category ? category.name : 'Sin categoría';
+
+                return `
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card product-card h-100 shadow-sm">
+                            ${product.status === 'nuevo' ? '<span class="position-absolute top-0 end-0 badge bg-primary m-2">Nuevo</span>' : ''}
+                            <img src="${product.image}" class="card-img-top" alt="${Utils.sanitizeHTML(product.name)}" 
+                                 style="height: 200px; object-fit: cover;" loading="lazy">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">${Utils.sanitizeHTML(product.name)}</h5>
+                                <p class="card-text text-muted small">${Utils.sanitizeHTML(categoryName)}</p>
+                                <p class="card-text flex-grow-1">${Utils.sanitizeHTML(product.description.substring(0, 100))}...</p>
+                                <div class="mb-2">
+                                    ${Utils.generateEcoLabels(product.ecoLabels)}
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h4 class="text-success mb-0">${Utils.formatPrice(product.price)}</h4>
+                                </div>
+                                <a href="detalle.html?id=${product.id}" class="btn btn-success w-100">
+                                    <i class="bi bi-eye"></i> Ver Detalle
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            },
+
+            createListCard: function(product) {
+                const categories = StorageManager.readAll('categories');
+                const category = categories.find(c => c.id === product.categoryId);
+                const categoryName = category ? category.name : 'Sin categoría';
+
+                return `
+                    <div class="col-12">
+                        <div class="card product-card shadow-sm mb-3">
+                            <div class="row g-0">
+                                <div class="col-md-3">
+                                    <img src="${product.image}" class="img-fluid rounded-start h-100" 
+                                         alt="${Utils.sanitizeHTML(product.name)}" style="object-fit: cover;">
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="card-body">
+                                        <div>
+                                            <h5 class="card-title">${Utils.sanitizeHTML(product.name)}</h5>
+                                            <p class="card-text text-muted small">${Utils.sanitizeHTML(categoryName)}</p>
+                                        </div>
+                                        <p class="card-text">${Utils.sanitizeHTML(product.description)}</p>
+                                        <div class="mb-2">
+                                            ${Utils.generateEcoLabels(product.ecoLabels)}
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h4 class="text-success mb-0">${Utils.formatPrice(product.price)}</h4>
+                                            <a href="detalle.html?id=${product.id}" class="btn btn-success">
+                                                <i class="bi bi-eye"></i> Ver Detalle
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            },
+
+            switchView: function(view) {
+                this.currentView = view;
+                
+                document.getElementById('gridView').classList.toggle('active', view === 'grid');
+                document.getElementById('listView').classList.toggle('active', view === 'list');
+                
+                this.renderProducts();
+            },
+
+            updateResultsInfo: function() {
+                const total = this.filteredProducts.length;
+                const start = (this.currentPage - 1) * this.productsPerPage + 1;
+                const end = Math.min(start + this.productsPerPage - 1, total);
+                
+                const info = document.getElementById('resultsInfo');
+                if (total === 0) {
+                    info.textContent = 'No se encontraron productos';
+                } else {
+                    info.textContent = `Mostrando ${start}-${end} de ${total} productos`;
+                }
+            },
+
+            renderPagination: function() {
+                const totalPages = Math.ceil(this.filteredProducts.length / this.productsPerPage);
+                const pagination = document.getElementById('pagination');
+                
+                if (totalPages <= 1) {
+                    pagination.innerHTML = '';
+                    return;
+                }
+
+                let html = `
+                    <li class="page-item ${this.currentPage === 1 ? 'disabled' : ''}">
+                        <a class="page-link" href="#" onclick="CatalogManager.goToPage(${this.currentPage - 1}); return false;">Anterior</a>
+                    </li>
+                `;
+
+                for (let i = 1; i <= totalPages; i++) {
+                    if (i === 1 || i === totalPages || (i >= this.currentPage - 1 && i <= this.currentPage + 1)) {
+                        html += `
+                            <li class="page-item ${i === this.currentPage ? 'active' : ''}">
+                                <a class="page-link" href="#" onclick="CatalogManager.goToPage(${i}); return false;">${i}</a>
+                            </li>
+                        `;
+                    } else if (i === this.currentPage - 2 || i === this.currentPage + 2) {
+                        html += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+                    }
+                }
+
+                html += `
+                    <li class="page-item ${this.currentPage === totalPages ? 'disabled' : ''}">
+                        <a class="page-link" href="#" onclick="CatalogManager.goToPage(${this.currentPage + 1}); return false;">Siguiente</a>
+                    </li>
+                `;
+
+                pagination.innerHTML = html;
+            },
+
+            goToPage: function(page) {
+                const totalPages = Math.ceil(this.filteredProducts.length / this.productsPerPage);
+                if (page >= 1 && page <= totalPages) {
+                    this.currentPage = page;
+                    this.renderProducts();
+                    this.updateResultsInfo();
+                    this.renderPagination();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }
+        };
+
+        // Inicializar catálogo
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cargar componentes
+            if (typeof EcoMarketApp !== 'undefined') {
+                EcoMarketApp.loadComponents();
+                EcoMarketApp.checkAuthentication();
+            }
+            
+            // Inicializar carrito
+            setTimeout(() => {
+                if (typeof CartManager !== 'undefined') {
+                    CartManager.init();
+                }
+                CatalogManager.init();
+            }, 100);
+        });
+    </script>
+</body>
+</html>

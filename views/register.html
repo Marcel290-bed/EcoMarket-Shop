@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - EcoMarket</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <div class="container-fluid vh-100 bg-light">
+        <div class="row h-100">
+            <div class="col-md-6 d-none d-md-flex bg-success text-white justify-content-center align-items-center">
+                <div class="text-center">
+                    <i class="bi bi-leaf display-1"></i>
+                    <h2>EcoMarket</h2>
+                    <p>Únete a nuestra comunidad ecológica</p>
+                    <div class="mt-4">
+                        <p class="small">¿Ya tienes cuenta?</p>
+                        <a href="login.html" class="btn btn-outline-light">Iniciar Sesión</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 d-flex justify-content-center align-items-center py-4">
+                <div class="card shadow-sm" style="width: 100%; max-width: 500px;">
+                    <div class="card-body p-4">
+                        <h3 class="card-title text-center mb-4">Crear Cuenta</h3>
+                        <form id="registerForm">
+                            <div class="mb-3">
+                                <label for="fullName" class="form-label">Nombre Completo *</label>
+                                <input type="text" class="form-control" id="fullName" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Correo Electrónico *</label>
+                                <input type="email" class="form-control" id="email" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Contraseña *</label>
+                                <input type="password" class="form-control" id="password" required minlength="6">
+                                <small class="text-muted">Mínimo 6 caracteres</small>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="confirmPassword" class="form-label">Confirmar Contraseña *</label>
+                                <input type="password" class="form-control" id="confirmPassword" required minlength="6">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Teléfono (opcional)</label>
+                                <input type="tel" class="form-control" id="phone">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Dirección (opcional)</label>
+                                <textarea class="form-control" id="address" rows="2"></textarea>
+                            </div>
+                            
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle"></i> 
+                                <small>Como usuario podrás comprar y vender productos ecológicos en EcoMarket</small>
+                            </div>
+
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="acceptTerms" required>
+                                <label class="form-check-label" for="acceptTerms">
+                                    Acepto los términos y condiciones
+                                </label>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-success w-100 mb-3">
+                                <i class="bi bi-person-plus"></i> Crear Cuenta
+                            </button>
+                            
+                            <div class="text-center">
+                                <small>¿Ya tienes cuenta? <a href="login.html">Iniciar Sesión</a></small>
+                                <br>
+                                <a href="index.html" class="text-decoration-none small">Volver al inicio</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/storage.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/users.js"></script>
+    <script src="../js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const registerForm = document.getElementById('registerForm');
+            
+            registerForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                // Validar campos
+                const fullName = document.getElementById('fullName').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                const phone = document.getElementById('phone').value.trim();
+                const address = document.getElementById('address').value.trim();
+                const acceptTerms = document.getElementById('acceptTerms').checked;
+                
+                // Validaciones
+                if (!fullName || !email || !password || !confirmPassword) {
+                    Utils.showToast('Por favor completa todos los campos requeridos', 'danger');
+                    return;
+                }
+                
+                if (!Utils.validateEmail(email)) {
+                    Utils.showToast('Por favor ingresa un correo electrónico válido', 'danger');
+                    return;
+                }
+                
+                if (password.length < 6) {
+                    Utils.showToast('La contraseña debe tener al menos 6 caracteres', 'danger');
+                    return;
+                }
+                
+                if (password !== confirmPassword) {
+                    Utils.showToast('Las contraseñas no coinciden', 'danger');
+                    return;
+                }
+                
+                if (!acceptTerms) {
+                    Utils.showToast('Debes aceptar los términos y condiciones', 'warning');
+                    return;
+                }
+                
+                // Verificar si el correo ya está registrado
+                const users = StorageManager.readAll('users') || [];
+                const existingUser = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+                
+                if (existingUser) {
+                    Utils.showToast('Este correo electrónico ya está registrado', 'danger');
+                    return;
+                }
+                
+                // Crear nuevo usuario
+                const newUser = {
+                    fullName: fullName,
+                    email: email,
+                    password: password, // En producción esto debería estar hasheado
+                    phone: phone || '',
+                    address: address || '',
+                    role: 'Usuario',
+                    status: 'activo',
+                    registrationDate: new Date().toISOString().split('T')[0]
+                };
+                
+                StorageManager.create('users', newUser);
+                
+                Utils.showToast('¡Cuenta creada exitosamente! Redirigiendo al login...', 'success');
+                
+                // Redirigir al login después de 2 segundos
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>

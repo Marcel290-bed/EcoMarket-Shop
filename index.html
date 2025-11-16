@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoMarket - Tienda Ecológica</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- Header -->
+    <div id="header"></div>
+
+    <!-- Contenido Principal -->
+    <main class="container-fluid px-0">
+        <!-- Hero Section -->
+        <section class="hero-section bg-success text-white py-5">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <h1 class="display-4 fw-bold">Bienvenido a EcoMarket</h1>
+                        <p class="lead">Tu tienda online de productos ecológicos y sostenibles</p>
+                        <p>Encuentra productos orgánicos, biodegradables y veganos que cuidan del planeta</p>
+                        <a href="views/catalogo.html" class="btn btn-light btn-lg mt-3">
+                            <i class="bi bi-cart-check"></i> Explorar Catálogo
+                        </a>
+                        <span id="heroAuthButton">
+                            <a href="login.html" class="btn btn-outline-light btn-lg mt-3 ms-2">
+                                <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
+                            </a>
+                        </span>
+                    </div>
+                    <div class="col-md-6">
+                        <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=600" 
+                             alt="Productos Ecológicos" class="img-fluid rounded shadow">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Características -->
+        <section class="py-5 bg-light">
+            <div class="container">
+                <h2 class="text-center mb-5">¿Por qué elegir EcoMarket?</h2>
+                <div class="row text-center">
+                    <div class="col-md-3 mb-4">
+                        <div class="p-4">
+                            <i class="bi bi-leaf display-3 text-success mb-3"></i>
+                            <h4 class="mb-3">100% Ecológico</h4>
+                            <p class="text-muted">Productos certificados orgánicos, biodegradables y respetuosos con el medio ambiente</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <div class="p-4">
+                            <i class="bi bi-truck display-3 text-success mb-3"></i>
+                            <h4 class="mb-3">Envío Sostenible</h4>
+                            <p class="text-muted">Empaque 100% reciclable y entregas con huella de carbono neutral</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <div class="p-4">
+                            <i class="bi bi-award display-3 text-success mb-3"></i>
+                            <h4 class="mb-3">Calidad Certificada</h4>
+                            <p class="text-muted">Todos nuestros productos cuentan con certificaciones internacionales de calidad</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <div class="p-4">
+                            <i class="bi bi-heart display-3 text-success mb-3"></i>
+                            <h4 class="mb-3">Impacto Positivo</h4>
+                            <p class="text-muted">Cada compra contribuye a un planeta más verde y saludable para todos</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Catálogo de Productos -->
+        <section id="catalogo" class="py-5">
+            <div class="container">
+                <h2 class="text-center mb-2">Productos Destacados</h2>
+                <p class="text-center text-muted mb-5">Descubre nuestra selección de productos ecológicos más populares</p>
+
+                <!-- Grid de Productos -->
+                <div id="productsGrid" class="row g-4 mb-4">
+                    <!-- Los productos se cargarán dinámicamente aquí -->
+                    <div class="col-12 text-center py-5">
+                        <div class="spinner-border text-success" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botón Ver Más -->
+                <div class="text-center mt-4">
+                    <a href="views/catalogo.html" class="btn btn-success btn-lg">
+                        <i class="bi bi-grid-3x3-gap"></i> Ver Todos los Productos
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="py-5 bg-success text-white">
+            <div class="container text-center">
+                <h2 class="mb-3">¿Listo para un cambio positivo?</h2>
+                <p class="lead mb-4">Únete a miles de personas que ya están haciendo la diferencia comprando de manera consciente y sostenible</p>
+                <span id="ctaAuthButton">
+                    <a href="register.html" class="btn btn-light btn-lg">
+                        <i class="bi bi-person-plus"></i> Crear Cuenta Gratis
+                    </a>
+                </span>
+            </div>
+        </section>
+
+        <!-- Información Adicional -->
+        <section class="py-5">
+            <div class="container">
+                <div class="row align-items-center mb-5">
+                    <div class="col-md-6 mb-4">
+                        <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=600" 
+                             alt="Compra Sostenible" class="img-fluid rounded shadow">
+                    </div>
+                    <div class="col-md-6">
+                        <h3 class="mb-3">Nuestra Misión</h3>
+                        <p class="text-muted">En EcoMarket, creemos que cada compra es una oportunidad para hacer del mundo un lugar mejor. Por eso, seleccionamos cuidadosamente cada producto en nuestra tienda, asegurándonos de que cumplan con los más altos estándares ecológicos y de sostenibilidad.</p>
+                        <ul class="list-unstyled mt-4">
+                            <li class="mb-3">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <strong>Productos verificados:</strong> Cada artículo cuenta con certificaciones oficiales
+                            </li>
+                            <li class="mb-3">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <strong>Transparencia total:</strong> Conoce el origen y proceso de cada producto
+                            </li>
+                            <li class="mb-3">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                <strong>Compromiso ambiental:</strong> El 1% de nuestras ventas va a proyectos de reforestación
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row align-items-center">
+                    <div class="col-md-6 order-md-2 mb-4">
+                        <img src="https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?w=600" 
+                             alt="Comunidad Eco" class="img-fluid rounded shadow">
+                    </div>
+                    <div class="col-md-6 order-md-1">
+                        <h3 class="mb-3">Únete a la Comunidad</h3>
+                        <p class="text-muted">Forma parte de una comunidad global de consumidores conscientes que están transformando el mercado. Comparte tus experiencias, descubre nuevos productos y aprende sobre prácticas sostenibles.</p>
+                        <div class="mt-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-success bg-opacity-10 rounded-circle p-3 me-3">
+                                    <i class="bi bi-people-fill text-success fs-4"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-0">+10,000 Usuarios</h5>
+                                    <small class="text-muted">Comprando de manera consciente</small>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-success bg-opacity-10 rounded-circle p-3 me-3">
+                                    <i class="bi bi-box-seam-fill text-success fs-4"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-0">+500 Productos</h5>
+                                    <small class="text-muted">Certificados y verificados</small>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <div class="bg-success bg-opacity-10 rounded-circle p-3 me-3">
+                                    <i class="bi bi-tree-fill text-success fs-4"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-0">50,000 Árboles</h5>
+                                    <small class="text-muted">Plantados gracias a tu apoyo</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <div id="footer"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/categories.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
